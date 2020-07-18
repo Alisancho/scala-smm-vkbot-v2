@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Main-Class: ru.AppStart
+Import-Package: scala,
+ akka,
+ org.apache.commons.io,
+ com.typesafe.scalalogging,
+ com.fasterxml.jackson.databind,
+ com.google.common.io,
+ com.typesafe.config,
+ com.fasterxml.jackson.annotation,
+ org.quartz
+

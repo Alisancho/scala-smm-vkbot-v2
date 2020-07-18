@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        button.knopka {
+            color: #fff;
+            background: #FFA500;
+            padding: 5px;
+            border-radius: 5px;
+            border: 2px solid #FF8247;
+        }
+
+        button.knopka:hover {
+            background: #FF6347;
+        }
+
+        button.stopbutton {
+            color: #fff;
+            background: #ff020a;
+            padding: 5px;
+            border-radius: 5px;
+            border: 2px solid #000000;
+        }
+
+        button.stopbutton:hover {
+            background: #ff1d2e;
+        }
+
+        input.text {
+            color: #000000;
+            background: #fff5fd;
+            padding: 5px;
+            border-radius: 5px;
+            border: 2px solid #ff1d2e;
+        }
+
+        input.text:hover {
+            background: #6dfaff;
+        }
+    </style>
+
+    <script>
+        function outputText(text) {
+            var outputDiv = document.getElementById('output');
+
+            console.log(text);
+            outputDiv.innerText = text;
+        }
+
+        function createJsonPostRequest(url, body) {
+            var req = new XMLHttpRequest();
+
+            req.open('POST', url, true);
+            req.setRequestHeader('Content-Type', 'application/json');
+            req.send(JSON.stringify(body));
+            req.onreadystatechange = function () {
+                if (req.readyState != 4) {
+                    outputText(req.response);
+                }
+            };
+        }
+
+        function createActorRequest(actorName, task) {
+            createJsonPostRequest('/server/actorSystem', {actorName: actorName, task: task});
+        }
+
+        function clickHandler() {
+            var data = +document.getElementById('womanInput').value;
+
+            createJsonPostRequest('/api/v1/createTask', {woman: data, typeTask: 'CLEAN'});
+        }
+
+        function startPROCESSING() {
+            createActorRequest('PROCESSING', 'START');
+        }
+
+        function stopPROCESSING() {
+            createActorRequest('PROCESSING', 'STOP');
+        }
+
+        function stopData() {
+            createActorRequest('STREEMDATA', 'STOP');
+        }
+
+        function startData() {
+            createActorRequest('STREEMDATA', 'START');
+        }
+
+        function stopDrop() {
+            createActorRequest('STREEMDROP', 'STOP');
+        }
+
+        function startDrop() {
+            createActorRequest('STREEMDROP', 'START');
+        }
+    </script>
+</head>
+<body>
+
+<input id="womanInput" class="text" type="number" name="firstname" value="">
+<button class="knopka" onclick="clickHandler()">CLAEN FRIEND</button>
+<br> <br>
+
+<form method="GET" action="/api/v1/STOP_SERVER">
+    <button class="stopbutton">STOP SERVER</button>
+</form>
+</form>
+
+<br><br><br><br>
+<button class="stopbutton" onclick="stopPROCESSING()">STOP PROCESSING</button>
+<button class="knopka" onclick="startPROCESSING()">START PROCESSING</button>
+<br> <br><br>
+<button class="stopbutton" onclick="stopData()">STOP DATA</button>
+<button class="knopka" onclick="startData()">START DATA</button>
+<br> <br>
+<button class="stopbutton" onclick="stopDrop()">STOP DROP</button>
+<button class="knopka" onclick="startDrop()">START DROP</button>
+<br> <br>
+<div id="output">
+
+</div>
+</body>
+</html>
